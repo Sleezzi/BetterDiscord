@@ -10,7 +10,7 @@
 		"skipLibCheck": true,
 		"typeRoots": ["./src/types", "./node_modules/@types"],
 		"types": ["node"],
-		"outDir": "../"
+		"outDir": "./"
 	},
 	"include": [
 		"src/types/*.d.ts",

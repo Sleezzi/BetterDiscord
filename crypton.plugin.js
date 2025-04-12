@@ -15,7 +15,7 @@ const { join } = require("path");
 const config = {
     name: "Crypton",
     description: "Chiffré vos conversations privrées pour qu'elles le soient réellement",
-    version: "2.0.0",
+    version: "1.0.0",
     settings: {},
     changelog: [
         {
@@ -134,6 +134,7 @@ const plugin = () => ({
         await showChangeLog();
         if (window.sleezzi.state === "active") {
             const update = await window.sleezzi.start(__filename.replace(__dirname, ""), config.update, config.version);
+            console.log(update);
             if (update !== "Up to date")
                 return;
         }

@@ -144,6 +144,8 @@ const plugin: BDPlugin = () => ({
 		await showChangeLog();
 		if (window.sleezzi.state === "active") {
 			const update = await window.sleezzi.start(__filename.replace(__dirname, ""), config.update, config.version);
+			console.log(update);
+			
 			if (update !== "Up to date") return;
 		}
 	},
