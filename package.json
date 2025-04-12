@@ -1,0 +1,12 @@
+{
+	"name": "crypton",
+	"version": "1.0.0",
+	"scripts": {
+		"build": "tsc",
+		"watch": "tsc --watch"
+	},
+	"devDependencies": {
+		"@types/betterdiscord": "github:zerthox/betterdiscord-types",
+		"@types/node": "^22.14.0"
+	}
+}
