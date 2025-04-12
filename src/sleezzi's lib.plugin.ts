@@ -27,19 +27,46 @@ const {
 	DOM
 } = new BdApi(config.name);
 const react = BdApi.React;
-const Styles = {
-	sheets: [],
-	load() {
-		DOM.addStyle(this.sheets.join("\n"))
+const styles: Styles = {
+	sheets: {},
+	add(origin: string, id: string, sheet: string) {
+		if (!this.sheets[origin]) {
+			this.sheets[origin] = [];
+		}
+		if (this.sheets[origin].find((style) => style.id === id)) {
+			this.remove(origin, id);
+		}
+		this.sheets[origin].push({
+			id,
+			sheet
+		});
+		DOM.addStyle(`${origin}@${id}`, sheet);
 	},
-	unload() {
-		DOM.removeStyle();
+	remove(origin: string, id: string) {
+		if (!this.sheets[origin]) return;
+		const sheet = this.sheets[origin].find((style) => style.id === id);
+		if (!sheet) return;
+		this.sheets[origin].splice(this.sheets[origin].indexOf(sheet));
+		DOM.removeStyle(`${origin}@${id}`);
+	},
+	reset(origin: string) {
+		if (!this.sheets[origin]) return;
+		for (const sheet of this.sheets[origin]) {
+			DOM.removeStyle(`${origin}@${sheet.id}`);
+		}
+		delete this.sheets[origin];
 	}
 }
 
 const updatePlugin = async (name: string, version: string): Promise<void> => {
-
 	return;
+}
+const notify = (title: string, description: string) => {
+
+}
+window.sleezzi = {
+	styles: styles,
+	state: "installed"
 }
 
 /** */
@@ -63,15 +90,19 @@ const plugin: BDPlugin = () => ({
 				"En continuant vous acceptez que les mises à jour se fasse directement avec GitHub ce qui contourne la vérification de sécurité de Better Discord"
 			)
 			UI.alert(title as any, items);
-			// Data.save("first", false);
+			Data.save("first", false);
 		}
 		window.sleezzi = {
-			styles: Styles,
-			update: updatePlugin
+			styles: styles,
+			notify: notify,
+			state: "active"
 		}
 	},
 	stop: () => {
-		delete window.sleezzi;
+		window.sleezzi = {
+			styles: styles,
+			state: "installed"
+		}
 	},
 	getSettingsPanel: () => {
 		const container = document.createElement("div");

@@ -6,6 +6,8 @@ type ElementsTree = {
 		children?: ElementsTree[];
 	};
 };
+
+
 declare global {
 	type BDPlugin = () => ({
 		start: () => void,
@@ -25,13 +27,35 @@ declare global {
 		changelogDate?: `${number}/${number}/${number}`
 	};
 	interface Window {
-		sleezzi?: {
+		sleezzi: {
+			styles: Styles;
+			notify: (title: string, description: string) => void;
+			state: "active";
+		} | {
 			styles: {
-				sheets: string[],
-				load: () => void,
-				unload: () => void
-			},
-			update: (name: string, url: string) => Promise<void>
+				sheets: {
+					[origin: string]: {
+						id: string;
+						sheet: string;
+					}[]
+				};
+				add: (origin: string, id: string, sheet: string) => void;
+				remove: (origin: string, id: string) => void;
+			};
+			state: "installed";
+		} | {
+			state: "installing" | "null";
 		}
 	}
+	type Styles = {
+		sheets: {
+			[origin: string]: {
+				id: string;
+				sheet: string;
+			}[]
+		};
+		add: (origin: string, id: string, sheet: string) => void;
+		remove: (origin: string, id: string) => void;
+		reset: (origin: string) => void
+	};
 }
