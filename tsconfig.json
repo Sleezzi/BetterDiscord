@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"module": "None",
+		"target": "ESNEXT",
+		"moduleResolution": "node",
+		"outDir": "./",
+		"removeComments": false,
+		"strict": true,
+		"alwaysStrict": false,
+		"esModuleInterop": true,
+		"typeRoots": ["./src/types", "./node_modules/@types"],
+		"types": ["node"]
+	},
+	"include": [
+		"./src/*.plugin.ts",
+		"./types/*.d.ts"
+	],
+	"exclude": [
+		"./node_modules/"
+	]
+}
